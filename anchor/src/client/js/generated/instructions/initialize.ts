@@ -110,7 +110,11 @@ export function getInitializeInstruction<
   TAccountSystemProgram extends string,
   TProgramAddress extends Address = typeof SOLANADAPP_PROGRAM_ADDRESS,
 >(
-  input: InitializeInput<TAccountPayer, TAccountSolanadapp, TAccountSystemProgram>,
+  input: InitializeInput<
+    TAccountPayer,
+    TAccountSolanadapp,
+    TAccountSystemProgram
+  >,
   config?: { programAddress?: TProgramAddress }
 ): InitializeInstruction<
   TProgramAddress,

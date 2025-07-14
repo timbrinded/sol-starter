@@ -6,7 +6,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-solanadapp = "JAVuBXeBZqXNtS73azhBDAoYaaAFfo4gWXoZe2e7Jf8H"
+solanadapp = "4BTeVU7EXaDVCvYbZiWLgYinhiR4iJL7hhyRzwdP2au5"
 
 [registry]
 url = "https://api.apr.dev"

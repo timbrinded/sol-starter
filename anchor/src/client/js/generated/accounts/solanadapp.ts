@@ -36,7 +36,7 @@ import {
 } from 'gill';
 
 export const SOLANADAPP_DISCRIMINATOR = new Uint8Array([
-  255, 176, 4, 245, 188, 253, 124, 25,
+  183, 218, 240, 102, 143, 38, 143, 116,
 ]);
 
 export function getSolanadappDiscriminatorBytes() {

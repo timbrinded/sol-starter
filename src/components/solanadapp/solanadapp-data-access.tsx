@@ -11,7 +11,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { toast } from 'sonner'
-import { generateKeyPairSigner } from 'gill'
+import { generateKeyPairSigner, createTransaction, getBase58Decoder, signAndSendTransactionMessageWithSigners } from 'gill'
 import { useWalletUi } from '@wallet-ui/react'
 import { useWalletTransactionSignAndSend } from '../solana/use-wallet-transaction-sign-and-send'
 import { useClusterVersion } from '@/components/cluster/use-cluster-version'
@@ -40,15 +40,24 @@ export function useSolanadappProgram() {
 }
 
 export function useSolanadappInitializeMutation() {
-  const { cluster } = useWalletUi()
+  const { cluster, client } = useWalletUi()
   const queryClient = useQueryClient()
   const signer = useWalletUiSigner()
-  const signAndSend = useWalletTransactionSignAndSend()
 
   return useMutation({
     mutationFn: async () => {
       const solanadapp = await generateKeyPairSigner()
-      return await signAndSend(getInitializeInstruction({ payer: signer, solanadapp }), signer)
+      const { value: latestBlockhash } = await client.rpc.getLatestBlockhash().send()
+      
+      const transaction = createTransaction({
+        feePayer: signer,
+        version: 0,
+        latestBlockhash,
+        instructions: [getInitializeInstruction({ payer: signer, solanadapp })],
+      })
+      
+      const signature = await signAndSendTransactionMessageWithSigners(transaction, [signer, solanadapp])
+      return getBase58Decoder().decode(signature)
     },
     onSuccess: async (tx) => {
       toastTx(tx)

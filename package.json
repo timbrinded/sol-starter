@@ -7,13 +7,13 @@
     "anchor-test": "cd anchor && anchor test",
     "build": "tsc -b && vite build",
     "codama:js": "codama run js -c ./anchor/codama.js",
-    "ci": "npm run build && npm run lint && npm run format:check",
+    "ci": "bun run build && bim run lint && bim run format:check",
     "dev": "vite",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "preview": "vite preview",
-    "setup": "npm run anchor keys sync && npm run codama:js"
+    "setup": "bun run anchor keys sync && bun run codama:js"
   },
   "description": "React+Vite, Tailwind, gill (based on @solana/kit), Anchor Solanadapp example, Wallet UI",
   "keywords": [

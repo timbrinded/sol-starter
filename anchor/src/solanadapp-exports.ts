@@ -16,7 +16,7 @@ export function getSolanadappProgramId(cluster: SolanaClusterId) {
     case 'solana:devnet':
     case 'solana:testnet':
       // This is the program ID for the Solanadapp program on devnet and testnet.
-      return address('6z68wfurCMYkZG51s1Et9BJEd9nJGUusjHXNt4dGbNNF')
+      return address('4BTeVU7EXaDVCvYbZiWLgYinhiR4iJL7hhyRzwdP2au5')
     case 'solana:mainnet':
     default:
       return SOLANADAPP_PROGRAM_ADDRESS

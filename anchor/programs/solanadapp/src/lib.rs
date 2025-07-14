@@ -2,7 +2,7 @@
 
 use anchor_lang::prelude::*;
 
-declare_id!("JAVuBXeBZqXNtS73azhBDAoYaaAFfo4gWXoZe2e7Jf8H");
+declare_id!("4BTeVU7EXaDVCvYbZiWLgYinhiR4iJL7hhyRzwdP2au5");
 
 #[program]
 pub mod solanadapp {

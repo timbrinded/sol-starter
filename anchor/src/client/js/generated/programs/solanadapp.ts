@@ -22,7 +22,7 @@ import {
 } from '../instructions';
 
 export const SOLANADAPP_PROGRAM_ADDRESS =
-  'JAVuBXeBZqXNtS73azhBDAoYaaAFfo4gWXoZe2e7Jf8H' as Address<'JAVuBXeBZqXNtS73azhBDAoYaaAFfo4gWXoZe2e7Jf8H'>;
+  '4BTeVU7EXaDVCvYbZiWLgYinhiR4iJL7hhyRzwdP2au5' as Address<'4BTeVU7EXaDVCvYbZiWLgYinhiR4iJL7hhyRzwdP2au5'>;
 
 export enum SolanadappAccount {
   Solanadapp,
@@ -36,7 +36,7 @@ export function identifySolanadappAccount(
     containsBytes(
       data,
       fixEncoderSize(getBytesEncoder(), 8).encode(
-        new Uint8Array([255, 176, 4, 245, 188, 253, 124, 25])
+        new Uint8Array([183, 218, 240, 102, 143, 38, 143, 116])
       ),
       0
     )
@@ -121,7 +121,7 @@ export function identifySolanadappInstruction(
 }
 
 export type ParsedSolanadappInstruction<
-  TProgram extends string = 'JAVuBXeBZqXNtS73azhBDAoYaaAFfo4gWXoZe2e7Jf8H',
+  TProgram extends string = '4BTeVU7EXaDVCvYbZiWLgYinhiR4iJL7hhyRzwdP2au5',
 > =
   | ({
       instructionType: SolanadappInstruction.Close;
