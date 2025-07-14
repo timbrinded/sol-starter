@@ -1,4 +1,4 @@
-import { UiWalletAccount, useWalletAccountTransactionSendingSigner, useWalletUi } from '@wallet-ui/react'
+import { type UiWalletAccount, useWalletAccountTransactionSendingSigner, useWalletUi } from '@wallet-ui/react'
 
 export function useWalletUiSigner() {
   const { account, cluster } = useWalletUi()

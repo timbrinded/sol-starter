@@ -1,4 +1,4 @@
-import { type Address, Base58EncodedBytes, SolanaClient } from 'gill'
+import type { Address, Base58EncodedBytes, SolanaClient } from 'gill'
 
 export interface GetProgramAccountsConfig {
   filter: string

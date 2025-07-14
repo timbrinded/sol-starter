@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { useWalletUi } from '@wallet-ui/react'
 import { WalletButton } from '@/components/solana/solana-provider.tsx'
 

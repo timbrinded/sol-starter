@@ -1,14 +1,14 @@
 import {
-  Account,
-  AccountInfoBase,
-  AccountInfoWithBase64EncodedData,
+  type Account,
+  type AccountInfoBase,
+  type AccountInfoWithBase64EncodedData,
   decodeAccount,
-  Decoder,
-  MaybeEncodedAccount,
+  type Decoder,
+  type MaybeEncodedAccount,
   parseBase64RpcAccount,
-  SolanaClient,
+  type SolanaClient,
 } from 'gill'
-import { getProgramAccounts, GetProgramAccountsConfig } from './get-program-accounts'
+import { getProgramAccounts, type GetProgramAccountsConfig } from './get-program-accounts'
 
 export interface GetProgramAccountsDecodedConfig<T extends object> extends GetProgramAccountsConfig {
   decoder: Decoder<T>

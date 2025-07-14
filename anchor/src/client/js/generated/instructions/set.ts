@@ -27,16 +27,14 @@ import {
   type IInstructionWithData,
   type ReadonlyUint8Array,
   type WritableAccount,
-} from 'gill';
-import { SOLANADAPP_PROGRAM_ADDRESS } from '../programs';
-import { getAccountMetaFactory, type ResolvedAccount } from '../shared';
+} from 'gill'
+import { SOLANADAPP_PROGRAM_ADDRESS } from '../programs'
+import { getAccountMetaFactory, type ResolvedAccount } from '../shared'
 
-export const SET_DISCRIMINATOR = new Uint8Array([
-  198, 51, 53, 241, 116, 29, 126, 194,
-]);
+export const SET_DISCRIMINATOR = new Uint8Array([198, 51, 53, 241, 116, 29, 126, 194])
 
 export function getSetDiscriminatorBytes() {
-  return fixEncoderSize(getBytesEncoder(), 8).encode(SET_DISCRIMINATOR);
+  return fixEncoderSize(getBytesEncoder(), 8).encode(SET_DISCRIMINATOR)
 }
 
 export type SetInstruction<
@@ -47,19 +45,17 @@ export type SetInstruction<
   IInstructionWithData<Uint8Array> &
   IInstructionWithAccounts<
     [
-      TAccountSolanadapp extends string
-        ? WritableAccount<TAccountSolanadapp>
-        : TAccountSolanadapp,
+      TAccountSolanadapp extends string ? WritableAccount<TAccountSolanadapp> : TAccountSolanadapp,
       ...TRemainingAccounts,
     ]
-  >;
+  >
 
 export type SetInstructionData = {
-  discriminator: ReadonlyUint8Array;
-  value: number;
-};
+  discriminator: ReadonlyUint8Array
+  value: number
+}
 
-export type SetInstructionDataArgs = { value: number };
+export type SetInstructionDataArgs = { value: number }
 
 export function getSetInstructionDataEncoder(): Encoder<SetInstructionDataArgs> {
   return transformEncoder(
@@ -67,98 +63,84 @@ export function getSetInstructionDataEncoder(): Encoder<SetInstructionDataArgs> 
       ['discriminator', fixEncoderSize(getBytesEncoder(), 8)],
       ['value', getU8Encoder()],
     ]),
-    (value) => ({ ...value, discriminator: SET_DISCRIMINATOR })
-  );
+    (value) => ({ ...value, discriminator: SET_DISCRIMINATOR }),
+  )
 }
 
 export function getSetInstructionDataDecoder(): Decoder<SetInstructionData> {
   return getStructDecoder([
     ['discriminator', fixDecoderSize(getBytesDecoder(), 8)],
     ['value', getU8Decoder()],
-  ]);
+  ])
 }
 
-export function getSetInstructionDataCodec(): Codec<
-  SetInstructionDataArgs,
-  SetInstructionData
-> {
-  return combineCodec(
-    getSetInstructionDataEncoder(),
-    getSetInstructionDataDecoder()
-  );
+export function getSetInstructionDataCodec(): Codec<SetInstructionDataArgs, SetInstructionData> {
+  return combineCodec(getSetInstructionDataEncoder(), getSetInstructionDataDecoder())
 }
 
 export type SetInput<TAccountSolanadapp extends string = string> = {
-  solanadapp: Address<TAccountSolanadapp>;
-  value: SetInstructionDataArgs['value'];
-};
+  solanadapp: Address<TAccountSolanadapp>
+  value: SetInstructionDataArgs['value']
+}
 
 export function getSetInstruction<
   TAccountSolanadapp extends string,
   TProgramAddress extends Address = typeof SOLANADAPP_PROGRAM_ADDRESS,
 >(
   input: SetInput<TAccountSolanadapp>,
-  config?: { programAddress?: TProgramAddress }
+  config?: { programAddress?: TProgramAddress },
 ): SetInstruction<TProgramAddress, TAccountSolanadapp> {
   // Program address.
-  const programAddress = config?.programAddress ?? SOLANADAPP_PROGRAM_ADDRESS;
+  const programAddress = config?.programAddress ?? SOLANADAPP_PROGRAM_ADDRESS
 
   // Original accounts.
   const originalAccounts = {
     solanadapp: { value: input.solanadapp ?? null, isWritable: true },
-  };
-  const accounts = originalAccounts as Record<
-    keyof typeof originalAccounts,
-    ResolvedAccount
-  >;
+  }
+  const accounts = originalAccounts as Record<keyof typeof originalAccounts, ResolvedAccount>
 
   // Original args.
-  const args = { ...input };
+  const args = { ...input }
 
-  const getAccountMeta = getAccountMetaFactory(programAddress, 'programId');
+  const getAccountMeta = getAccountMetaFactory(programAddress, 'programId')
   const instruction = {
     accounts: [getAccountMeta(accounts.solanadapp)],
     programAddress,
     data: getSetInstructionDataEncoder().encode(args as SetInstructionDataArgs),
-  } as SetInstruction<TProgramAddress, TAccountSolanadapp>;
+  } as SetInstruction<TProgramAddress, TAccountSolanadapp>
 
-  return instruction;
+  return instruction
 }
 
 export type ParsedSetInstruction<
   TProgram extends string = typeof SOLANADAPP_PROGRAM_ADDRESS,
   TAccountMetas extends readonly IAccountMeta[] = readonly IAccountMeta[],
 > = {
-  programAddress: Address<TProgram>;
+  programAddress: Address<TProgram>
   accounts: {
-    solanadapp: TAccountMetas[0];
-  };
-  data: SetInstructionData;
-};
+    solanadapp: TAccountMetas[0]
+  }
+  data: SetInstructionData
+}
 
-export function parseSetInstruction<
-  TProgram extends string,
-  TAccountMetas extends readonly IAccountMeta[],
->(
-  instruction: IInstruction<TProgram> &
-    IInstructionWithAccounts<TAccountMetas> &
-    IInstructionWithData<Uint8Array>
+export function parseSetInstruction<TProgram extends string, TAccountMetas extends readonly IAccountMeta[]>(
+  instruction: IInstruction<TProgram> & IInstructionWithAccounts<TAccountMetas> & IInstructionWithData<Uint8Array>,
 ): ParsedSetInstruction<TProgram, TAccountMetas> {
   if (instruction.accounts.length < 1) {
     // TODO: Coded error.
-    throw new Error('Not enough accounts');
+    throw new Error('Not enough accounts')
   }
-  let accountIndex = 0;
+  let accountIndex = 0
   const getNextAccount = () => {
-    const accountMeta = instruction.accounts![accountIndex]!;
-    accountIndex += 1;
-    return accountMeta;
-  };
+    const accountMeta = instruction.accounts![accountIndex]!
+    accountIndex += 1
+    return accountMeta
+  }
   return {
     programAddress: instruction.programAddress,
     accounts: {
       solanadapp: getNextAccount(),
     },
     data: getSetInstructionDataDecoder().decode(instruction.data),
-  };
+  }
 }

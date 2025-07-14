@@ -6,46 +6,36 @@
  * @see https://github.com/codama-idl/codama
  */
 
-import {
-  containsBytes,
-  fixEncoderSize,
-  getBytesEncoder,
-  type Address,
-  type ReadonlyUint8Array,
-} from 'gill';
-import {
-  type ParsedCloseInstruction,
-  type ParsedDecrementInstruction,
-  type ParsedIncrementInstruction,
-  type ParsedInitializeInstruction,
-  type ParsedSetInstruction,
-} from '../instructions';
+import { containsBytes, fixEncoderSize, getBytesEncoder, type Address, type ReadonlyUint8Array } from 'gill'
+import type {
+  ParsedCloseInstruction,
+  ParsedDecrementInstruction,
+  ParsedIncrementInstruction,
+  ParsedInitializeInstruction,
+  ParsedSetInstruction,
+} from '../instructions'
 
 export const SOLANADAPP_PROGRAM_ADDRESS =
-  '4BTeVU7EXaDVCvYbZiWLgYinhiR4iJL7hhyRzwdP2au5' as Address<'4BTeVU7EXaDVCvYbZiWLgYinhiR4iJL7hhyRzwdP2au5'>;
+  '4BTeVU7EXaDVCvYbZiWLgYinhiR4iJL7hhyRzwdP2au5' as Address<'4BTeVU7EXaDVCvYbZiWLgYinhiR4iJL7hhyRzwdP2au5'>
 
 export enum SolanadappAccount {
   Solanadapp,
 }
 
 export function identifySolanadappAccount(
-  account: { data: ReadonlyUint8Array } | ReadonlyUint8Array
+  account: { data: ReadonlyUint8Array } | ReadonlyUint8Array,
 ): SolanadappAccount {
-  const data = 'data' in account ? account.data : account;
+  const data = 'data' in account ? account.data : account
   if (
     containsBytes(
       data,
-      fixEncoderSize(getBytesEncoder(), 8).encode(
-        new Uint8Array([183, 218, 240, 102, 143, 38, 143, 116])
-      ),
-      0
+      fixEncoderSize(getBytesEncoder(), 8).encode(new Uint8Array([183, 218, 240, 102, 143, 38, 143, 116])),
+      0,
     )
   ) {
-    return SolanadappAccount.Solanadapp;
+    return SolanadappAccount.Solanadapp
   }
-  throw new Error(
-    'The provided account could not be identified as a solanadapp account.'
-  );
+  throw new Error('The provided account could not be identified as a solanadapp account.')
 }
 
 export enum SolanadappInstruction {
@@ -57,84 +47,70 @@ export enum SolanadappInstruction {
 }
 
 export function identifySolanadappInstruction(
-  instruction: { data: ReadonlyUint8Array } | ReadonlyUint8Array
+  instruction: { data: ReadonlyUint8Array } | ReadonlyUint8Array,
 ): SolanadappInstruction {
-  const data = 'data' in instruction ? instruction.data : instruction;
+  const data = 'data' in instruction ? instruction.data : instruction
   if (
     containsBytes(
       data,
-      fixEncoderSize(getBytesEncoder(), 8).encode(
-        new Uint8Array([98, 165, 201, 177, 108, 65, 206, 96])
-      ),
-      0
+      fixEncoderSize(getBytesEncoder(), 8).encode(new Uint8Array([98, 165, 201, 177, 108, 65, 206, 96])),
+      0,
     )
   ) {
-    return SolanadappInstruction.Close;
+    return SolanadappInstruction.Close
   }
   if (
     containsBytes(
       data,
-      fixEncoderSize(getBytesEncoder(), 8).encode(
-        new Uint8Array([106, 227, 168, 59, 248, 27, 150, 101])
-      ),
-      0
+      fixEncoderSize(getBytesEncoder(), 8).encode(new Uint8Array([106, 227, 168, 59, 248, 27, 150, 101])),
+      0,
     )
   ) {
-    return SolanadappInstruction.Decrement;
+    return SolanadappInstruction.Decrement
   }
   if (
     containsBytes(
       data,
-      fixEncoderSize(getBytesEncoder(), 8).encode(
-        new Uint8Array([11, 18, 104, 9, 104, 174, 59, 33])
-      ),
-      0
+      fixEncoderSize(getBytesEncoder(), 8).encode(new Uint8Array([11, 18, 104, 9, 104, 174, 59, 33])),
+      0,
     )
   ) {
-    return SolanadappInstruction.Increment;
+    return SolanadappInstruction.Increment
   }
   if (
     containsBytes(
       data,
-      fixEncoderSize(getBytesEncoder(), 8).encode(
-        new Uint8Array([175, 175, 109, 31, 13, 152, 155, 237])
-      ),
-      0
+      fixEncoderSize(getBytesEncoder(), 8).encode(new Uint8Array([175, 175, 109, 31, 13, 152, 155, 237])),
+      0,
     )
   ) {
-    return SolanadappInstruction.Initialize;
+    return SolanadappInstruction.Initialize
   }
   if (
     containsBytes(
       data,
-      fixEncoderSize(getBytesEncoder(), 8).encode(
-        new Uint8Array([198, 51, 53, 241, 116, 29, 126, 194])
-      ),
-      0
+      fixEncoderSize(getBytesEncoder(), 8).encode(new Uint8Array([198, 51, 53, 241, 116, 29, 126, 194])),
+      0,
     )
   ) {
-    return SolanadappInstruction.Set;
+    return SolanadappInstruction.Set
   }
-  throw new Error(
-    'The provided instruction could not be identified as a solanadapp instruction.'
-  );
+  throw new Error('The provided instruction could not be identified as a solanadapp instruction.')
 }
 
-export type ParsedSolanadappInstruction<
-  TProgram extends string = '4BTeVU7EXaDVCvYbZiWLgYinhiR4iJL7hhyRzwdP2au5',
-> =
+export type ParsedSolanadappInstruction<TProgram extends string = '4BTeVU7EXaDVCvYbZiWLgYinhiR4iJL7hhyRzwdP2au5'> =
   | ({
-      instructionType: SolanadappInstruction.Close;
+      instructionType: SolanadappInstruction.Close
     } & ParsedCloseInstruction<TProgram>)
   | ({
-      instructionType: SolanadappInstruction.Decrement;
+      instructionType: SolanadappInstruction.Decrement
     } & ParsedDecrementInstruction<TProgram>)
   | ({
-      instructionType: SolanadappInstruction.Increment;
+      instructionType: SolanadappInstruction.Increment
     } & ParsedIncrementInstruction<TProgram>)
   | ({
-      instructionType: SolanadappInstruction.Initialize;
+      instructionType: SolanadappInstruction.Initialize
     } & ParsedInitializeInstruction<TProgram>)
   | ({
-      instructionType: SolanadappInstruction.Set;
-    } & ParsedSetInstruction<TProgram>);
+      instructionType: SolanadappInstruction.Set
+    } & ParsedSetInstruction<TProgram>)

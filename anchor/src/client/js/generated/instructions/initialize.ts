@@ -28,70 +28,54 @@ import {
   type ReadonlyUint8Array,
   type TransactionSigner,
   type WritableSignerAccount,
-} from 'gill';
-import { SOLANADAPP_PROGRAM_ADDRESS } from '../programs';
-import { getAccountMetaFactory, type ResolvedAccount } from '../shared';
+} from 'gill'
+import { SOLANADAPP_PROGRAM_ADDRESS } from '../programs'
+import { getAccountMetaFactory, type ResolvedAccount } from '../shared'
 
-export const INITIALIZE_DISCRIMINATOR = new Uint8Array([
-  175, 175, 109, 31, 13, 152, 155, 237,
-]);
+export const INITIALIZE_DISCRIMINATOR = new Uint8Array([175, 175, 109, 31, 13, 152, 155, 237])
 
 export function getInitializeDiscriminatorBytes() {
-  return fixEncoderSize(getBytesEncoder(), 8).encode(INITIALIZE_DISCRIMINATOR);
+  return fixEncoderSize(getBytesEncoder(), 8).encode(INITIALIZE_DISCRIMINATOR)
 }
 
 export type InitializeInstruction<
   TProgram extends string = typeof SOLANADAPP_PROGRAM_ADDRESS,
   TAccountPayer extends string | IAccountMeta<string> = string,
   TAccountSolanadapp extends string | IAccountMeta<string> = string,
-  TAccountSystemProgram extends
-    | string
-    | IAccountMeta<string> = '11111111111111111111111111111111',
+  TAccountSystemProgram extends string | IAccountMeta<string> = '11111111111111111111111111111111',
   TRemainingAccounts extends readonly IAccountMeta<string>[] = [],
 > = IInstruction<TProgram> &
   IInstructionWithData<Uint8Array> &
   IInstructionWithAccounts<
     [
       TAccountPayer extends string
-        ? WritableSignerAccount<TAccountPayer> &
-            IAccountSignerMeta<TAccountPayer>
+        ? WritableSignerAccount<TAccountPayer> & IAccountSignerMeta<TAccountPayer>
         : TAccountPayer,
       TAccountSolanadapp extends string
-        ? WritableSignerAccount<TAccountSolanadapp> &
-            IAccountSignerMeta<TAccountSolanadapp>
+        ? WritableSignerAccount<TAccountSolanadapp> & IAccountSignerMeta<TAccountSolanadapp>
         : TAccountSolanadapp,
-      TAccountSystemProgram extends string
-        ? ReadonlyAccount<TAccountSystemProgram>
-        : TAccountSystemProgram,
+      TAccountSystemProgram extends string ? ReadonlyAccount<TAccountSystemProgram> : TAccountSystemProgram,
       ...TRemainingAccounts,
     ]
-  >;
+  >
 
-export type InitializeInstructionData = { discriminator: ReadonlyUint8Array };
+export type InitializeInstructionData = { discriminator: ReadonlyUint8Array }
 
-export type InitializeInstructionDataArgs = {};
+export type InitializeInstructionDataArgs = {}
 
 export function getInitializeInstructionDataEncoder(): Encoder<InitializeInstructionDataArgs> {
-  return transformEncoder(
-    getStructEncoder([['discriminator', fixEncoderSize(getBytesEncoder(), 8)]]),
-    (value) => ({ ...value, discriminator: INITIALIZE_DISCRIMINATOR })
-  );
+  return transformEncoder(getStructEncoder([['discriminator', fixEncoderSize(getBytesEncoder(), 8)]]), (value) => ({
+    ...value,
+    discriminator: INITIALIZE_DISCRIMINATOR,
+  }))
 }
 
 export function getInitializeInstructionDataDecoder(): Decoder<InitializeInstructionData> {
-  return getStructDecoder([
-    ['discriminator', fixDecoderSize(getBytesDecoder(), 8)],
-  ]);
+  return getStructDecoder([['discriminator', fixDecoderSize(getBytesDecoder(), 8)]])
 }
 
-export function getInitializeInstructionDataCodec(): Codec<
-  InitializeInstructionDataArgs,
-  InitializeInstructionData
-> {
-  return combineCodec(
-    getInitializeInstructionDataEncoder(),
-    getInitializeInstructionDataDecoder()
-  );
+export function getInitializeInstructionDataCodec(): Codec<InitializeInstructionDataArgs, InitializeInstructionData> {
+  return combineCodec(getInitializeInstructionDataEncoder(), getInitializeInstructionDataDecoder())
 }
 
 export type InitializeInput<
@@ -99,10 +83,10 @@ export type InitializeInput<
   TAccountSolanadapp extends string = string,
   TAccountSystemProgram extends string = string,
 > = {
-  payer: TransactionSigner<TAccountPayer>;
-  solanadapp: TransactionSigner<TAccountSolanadapp>;
-  systemProgram?: Address<TAccountSystemProgram>;
-};
+  payer: TransactionSigner<TAccountPayer>
+  solanadapp: TransactionSigner<TAccountSolanadapp>
+  systemProgram?: Address<TAccountSystemProgram>
+}
 
 export function getInitializeInstruction<
   TAccountPayer extends string,
@@ -110,39 +94,26 @@ export function getInitializeInstruction<
   TAccountSystemProgram extends string,
   TProgramAddress extends Address = typeof SOLANADAPP_PROGRAM_ADDRESS,
 >(
-  input: InitializeInput<
-    TAccountPayer,
-    TAccountSolanadapp,
-    TAccountSystemProgram
-  >,
-  config?: { programAddress?: TProgramAddress }
-): InitializeInstruction<
-  TProgramAddress,
-  TAccountPayer,
-  TAccountSolanadapp,
-  TAccountSystemProgram
-> {
+  input: InitializeInput<TAccountPayer, TAccountSolanadapp, TAccountSystemProgram>,
+  config?: { programAddress?: TProgramAddress },
+): InitializeInstruction<TProgramAddress, TAccountPayer, TAccountSolanadapp, TAccountSystemProgram> {
   // Program address.
-  const programAddress = config?.programAddress ?? SOLANADAPP_PROGRAM_ADDRESS;
+  const programAddress = config?.programAddress ?? SOLANADAPP_PROGRAM_ADDRESS
 
   // Original accounts.
   const originalAccounts = {
     payer: { value: input.payer ?? null, isWritable: true },
     solanadapp: { value: input.solanadapp ?? null, isWritable: true },
     systemProgram: { value: input.systemProgram ?? null, isWritable: false },
-  };
-  const accounts = originalAccounts as Record<
-    keyof typeof originalAccounts,
-    ResolvedAccount
-  >;
+  }
+  const accounts = originalAccounts as Record<keyof typeof originalAccounts, ResolvedAccount>
 
   // Resolve default values.
   if (!accounts.systemProgram.value) {
-    accounts.systemProgram.value =
-      '11111111111111111111111111111111' as Address<'11111111111111111111111111111111'>;
+    accounts.systemProgram.value = '11111111111111111111111111111111' as Address<'11111111111111111111111111111111'>
   }
 
-  const getAccountMeta = getAccountMetaFactory(programAddress, 'programId');
+  const getAccountMeta = getAccountMetaFactory(programAddress, 'programId')
   const instruction = {
     accounts: [
       getAccountMeta(accounts.payer),
@@ -151,47 +122,37 @@ export function getInitializeInstruction<
     ],
     programAddress,
     data: getInitializeInstructionDataEncoder().encode({}),
-  } as InitializeInstruction<
-    TProgramAddress,
-    TAccountPayer,
-    TAccountSolanadapp,
-    TAccountSystemProgram
-  >;
+  } as InitializeInstruction<TProgramAddress, TAccountPayer, TAccountSolanadapp, TAccountSystemProgram>
 
-  return instruction;
+  return instruction
 }
 
 export type ParsedInitializeInstruction<
   TProgram extends string = typeof SOLANADAPP_PROGRAM_ADDRESS,
   TAccountMetas extends readonly IAccountMeta[] = readonly IAccountMeta[],
 > = {
-  programAddress: Address<TProgram>;
+  programAddress: Address<TProgram>
   accounts: {
-    payer: TAccountMetas[0];
-    solanadapp: TAccountMetas[1];
-    systemProgram: TAccountMetas[2];
-  };
-  data: InitializeInstructionData;
-};
+    payer: TAccountMetas[0]
+    solanadapp: TAccountMetas[1]
+    systemProgram: TAccountMetas[2]
+  }
+  data: InitializeInstructionData
+}
 
-export function parseInitializeInstruction<
-  TProgram extends string,
-  TAccountMetas extends readonly IAccountMeta[],
->(
-  instruction: IInstruction<TProgram> &
-    IInstructionWithAccounts<TAccountMetas> &
-    IInstructionWithData<Uint8Array>
+export function parseInitializeInstruction<TProgram extends string, TAccountMetas extends readonly IAccountMeta[]>(
+  instruction: IInstruction<TProgram> & IInstructionWithAccounts<TAccountMetas> & IInstructionWithData<Uint8Array>,
 ): ParsedInitializeInstruction<TProgram, TAccountMetas> {
   if (instruction.accounts.length < 3) {
     // TODO: Coded error.
-    throw new Error('Not enough accounts');
+    throw new Error('Not enough accounts')
   }
-  let accountIndex = 0;
+  let accountIndex = 0
   const getNextAccount = () => {
-    const accountMeta = instruction.accounts![accountIndex]!;
-    accountIndex += 1;
-    return accountMeta;
-  };
+    const accountMeta = instruction.accounts![accountIndex]!
+    accountIndex += 1
+    return accountMeta
+  }
   return {
     programAddress: instruction.programAddress,
     accounts: {
@@ -200,5 +161,5 @@ export function parseInitializeInstruction<
       systemProgram: getNextAccount(),
     },
     data: getInitializeInstructionDataDecoder().decode(instruction.data),
-  };
+  }
 }

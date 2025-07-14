@@ -10,7 +10,7 @@ import { AppModal } from '@/components/app-modal'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useWalletUi } from '@wallet-ui/react'
-import { address, Address, Lamports, lamportsToSol } from 'gill'
+import { address, type Address, type Lamports, lamportsToSol } from 'gill'
 import { ErrorBoundary } from 'react-error-boundary'
 import {
   useGetBalanceQuery,

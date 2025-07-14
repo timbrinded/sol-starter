@@ -1,3 +1,5 @@
+import { describe, it, expect } from 'bun:test'
+
 describe('solanadapp', () => {
   // TODO: Implement tests for the solanadapp program based on the Codama generated client.
   // Use tests in `legacy/legacy-next-tailwind-solanadapp/anchor/tests/solanadapp.test.ts` as a reference.

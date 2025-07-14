@@ -25,16 +25,14 @@ import {
   type IInstructionWithData,
   type ReadonlyUint8Array,
   type WritableAccount,
-} from 'gill';
-import { SOLANADAPP_PROGRAM_ADDRESS } from '../programs';
-import { getAccountMetaFactory, type ResolvedAccount } from '../shared';
+} from 'gill'
+import { SOLANADAPP_PROGRAM_ADDRESS } from '../programs'
+import { getAccountMetaFactory, type ResolvedAccount } from '../shared'
 
-export const DECREMENT_DISCRIMINATOR = new Uint8Array([
-  106, 227, 168, 59, 248, 27, 150, 101,
-]);
+export const DECREMENT_DISCRIMINATOR = new Uint8Array([106, 227, 168, 59, 248, 27, 150, 101])
 
 export function getDecrementDiscriminatorBytes() {
-  return fixEncoderSize(getBytesEncoder(), 8).encode(DECREMENT_DISCRIMINATOR);
+  return fixEncoderSize(getBytesEncoder(), 8).encode(DECREMENT_DISCRIMINATOR)
 }
 
 export type DecrementInstruction<
@@ -45,107 +43,89 @@ export type DecrementInstruction<
   IInstructionWithData<Uint8Array> &
   IInstructionWithAccounts<
     [
-      TAccountSolanadapp extends string
-        ? WritableAccount<TAccountSolanadapp>
-        : TAccountSolanadapp,
+      TAccountSolanadapp extends string ? WritableAccount<TAccountSolanadapp> : TAccountSolanadapp,
       ...TRemainingAccounts,
     ]
-  >;
+  >
 
-export type DecrementInstructionData = { discriminator: ReadonlyUint8Array };
+export type DecrementInstructionData = { discriminator: ReadonlyUint8Array }
 
-export type DecrementInstructionDataArgs = {};
+export type DecrementInstructionDataArgs = {}
 
 export function getDecrementInstructionDataEncoder(): Encoder<DecrementInstructionDataArgs> {
-  return transformEncoder(
-    getStructEncoder([['discriminator', fixEncoderSize(getBytesEncoder(), 8)]]),
-    (value) => ({ ...value, discriminator: DECREMENT_DISCRIMINATOR })
-  );
+  return transformEncoder(getStructEncoder([['discriminator', fixEncoderSize(getBytesEncoder(), 8)]]), (value) => ({
+    ...value,
+    discriminator: DECREMENT_DISCRIMINATOR,
+  }))
 }
 
 export function getDecrementInstructionDataDecoder(): Decoder<DecrementInstructionData> {
-  return getStructDecoder([
-    ['discriminator', fixDecoderSize(getBytesDecoder(), 8)],
-  ]);
+  return getStructDecoder([['discriminator', fixDecoderSize(getBytesDecoder(), 8)]])
 }
 
-export function getDecrementInstructionDataCodec(): Codec<
-  DecrementInstructionDataArgs,
-  DecrementInstructionData
-> {
-  return combineCodec(
-    getDecrementInstructionDataEncoder(),
-    getDecrementInstructionDataDecoder()
-  );
+export function getDecrementInstructionDataCodec(): Codec<DecrementInstructionDataArgs, DecrementInstructionData> {
+  return combineCodec(getDecrementInstructionDataEncoder(), getDecrementInstructionDataDecoder())
 }
 
 export type DecrementInput<TAccountSolanadapp extends string = string> = {
-  solanadapp: Address<TAccountSolanadapp>;
-};
+  solanadapp: Address<TAccountSolanadapp>
+}
 
 export function getDecrementInstruction<
   TAccountSolanadapp extends string,
   TProgramAddress extends Address = typeof SOLANADAPP_PROGRAM_ADDRESS,
 >(
   input: DecrementInput<TAccountSolanadapp>,
-  config?: { programAddress?: TProgramAddress }
+  config?: { programAddress?: TProgramAddress },
 ): DecrementInstruction<TProgramAddress, TAccountSolanadapp> {
   // Program address.
-  const programAddress = config?.programAddress ?? SOLANADAPP_PROGRAM_ADDRESS;
+  const programAddress = config?.programAddress ?? SOLANADAPP_PROGRAM_ADDRESS
 
   // Original accounts.
   const originalAccounts = {
     solanadapp: { value: input.solanadapp ?? null, isWritable: true },
-  };
-  const accounts = originalAccounts as Record<
-    keyof typeof originalAccounts,
-    ResolvedAccount
-  >;
+  }
+  const accounts = originalAccounts as Record<keyof typeof originalAccounts, ResolvedAccount>
 
-  const getAccountMeta = getAccountMetaFactory(programAddress, 'programId');
+  const getAccountMeta = getAccountMetaFactory(programAddress, 'programId')
   const instruction = {
     accounts: [getAccountMeta(accounts.solanadapp)],
     programAddress,
     data: getDecrementInstructionDataEncoder().encode({}),
-  } as DecrementInstruction<TProgramAddress, TAccountSolanadapp>;
+  } as DecrementInstruction<TProgramAddress, TAccountSolanadapp>
 
-  return instruction;
+  return instruction
 }
 
 export type ParsedDecrementInstruction<
   TProgram extends string = typeof SOLANADAPP_PROGRAM_ADDRESS,
   TAccountMetas extends readonly IAccountMeta[] = readonly IAccountMeta[],
 > = {
-  programAddress: Address<TProgram>;
+  programAddress: Address<TProgram>
   accounts: {
-    solanadapp: TAccountMetas[0];
-  };
-  data: DecrementInstructionData;
-};
+    solanadapp: TAccountMetas[0]
+  }
+  data: DecrementInstructionData
+}
 
-export function parseDecrementInstruction<
-  TProgram extends string,
-  TAccountMetas extends readonly IAccountMeta[],
->(
-  instruction: IInstruction<TProgram> &
-    IInstructionWithAccounts<TAccountMetas> &
-    IInstructionWithData<Uint8Array>
+export function parseDecrementInstruction<TProgram extends string, TAccountMetas extends readonly IAccountMeta[]>(
+  instruction: IInstruction<TProgram> & IInstructionWithAccounts<TAccountMetas> & IInstructionWithData<Uint8Array>,
 ): ParsedDecrementInstruction<TProgram, TAccountMetas> {
   if (instruction.accounts.length < 1) {
     // TODO: Coded error.
-    throw new Error('Not enough accounts');
+    throw new Error('Not enough accounts')
   }
-  let accountIndex = 0;
+  let accountIndex = 0
   const getNextAccount = () => {
-    const accountMeta = instruction.accounts![accountIndex]!;
-    accountIndex += 1;
-    return accountMeta;
-  };
+    const accountMeta = instruction.accounts![accountIndex]!
+    accountIndex += 1
+    return accountMeta
+  }
   return {
     programAddress: instruction.programAddress,
     accounts: {
       solanadapp: getNextAccount(),
     },
     data: getDecrementInstructionDataDecoder().decode(instruction.data),
-  };
+  }
 }

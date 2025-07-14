@@ -12,8 +12,8 @@ import {
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ExplorerLink } from '../cluster/cluster-ui'
-import { SolanadappAccount } from '@project/anchor'
-import { ReactNode } from 'react'
+import type { SolanadappAccount } from '@project/anchor'
+import type { ReactNode } from 'react'
 
 export function SolanadappProgramExplorerLink() {
   const programId = useSolanadappProgramId()
@@ -113,7 +113,7 @@ export function SolanadappButtonSet({ solanadapp }: { solanadapp: SolanadappAcco
       variant="outline"
       onClick={() => {
         const value = window.prompt('Set value to:', solanadapp.data.count.toString() ?? '0')
-        if (!value || parseInt(value) === solanadapp.data.count || isNaN(parseInt(value))) {
+        if (!value || parseInt(value) === solanadapp.data.count || Number.isNaN(parseInt(value))) {
           return
         }
         return setMutation.mutateAsync(parseInt(value))

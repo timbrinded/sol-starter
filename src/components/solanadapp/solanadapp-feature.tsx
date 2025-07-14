@@ -1,5 +1,10 @@
 import { WalletButton } from '../solana/solana-provider'
-import { SolanadappButtonInitialize, SolanadappList, SolanadappProgramExplorerLink, SolanadappProgramGuard } from './solanadapp-ui'
+import {
+  SolanadappButtonInitialize,
+  SolanadappList,
+  SolanadappProgramExplorerLink,
+  SolanadappProgramGuard,
+} from './solanadapp-ui'
 import { AppHero } from '../app-hero'
 import { useWalletUi } from '@wallet-ui/react'
 
