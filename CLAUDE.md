@@ -30,9 +30,9 @@ Before committing or submitting code, ALWAYS run these commands in order:
    - Checks for code quality issues and potential bugs
    - Configured via `biome.json`
 
-3. **Format Check**: `bun run format:check`
+3. **Format Check**: `bun run fmt:check`
    - Verifies code formatting consistency
-   - To auto-fix: `bun run format`
+   - To auto-fix: `bun run fmt`
 
 4. **Run Tests**: `bun test`
    - Executes all test files using Bun's native test runner
@@ -42,7 +42,7 @@ Before committing or submitting code, ALWAYS run these commands in order:
 
 Run all checks at once:
 ```bash
-bun run typecheck && bun run lint && bun run format:check && bun test
+bun run typecheck && bun run lint && bun run fmt:check && bun test
 ```
 
 ## Configuration Files

@@ -7,7 +7,7 @@
     "anchor-test": "cd anchor && anchor test",
     "build": "vite build",
     "codama:js": "codama run js -c ./anchor/codama.js",
-    "ci": "bun run build && bun run lint && bun run format:check",
+    "ci": "bun run build && bun run lint && bun run fmt:check",
     "dev": "vite",
     "fmt": "biome format --write .",
     "fmt:check": "biome format .",
