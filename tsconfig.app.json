@@ -28,9 +28,10 @@
 
     "paths": {
       "@project/anchor": ["anchor/src"],
-      "@/*": ["./web/*"]
+      "@/*": ["./web/*"],
+      "client-js": ["./anchor/src/client/js/index.ts"]
     }
   },
-  "include": ["anchor", "web"],
-  "exclude": ["node_modules", "dist", "anchor/target", "**/*.spec.ts", "**/*.test.ts"]
+  "include": ["web", "anchor/src/index.ts", "anchor/src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "anchor/target", "**/*.spec.ts", "**/*.test.ts", "anchor/tests"]
 }

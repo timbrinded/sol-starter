@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.backend.tsbuildinfo",
     "target": "esnext",
-    "lib": ["ES2023"],
+    "lib": ["ES2023", "ESNext"],
     "module": "ESNext",
     "skipLibCheck": true,
     "composite": true,
+    "baseUrl": ".",
+
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -14,15 +15,23 @@
     "incremental": true,
     "moduleDetection": "force",
     "noEmit": true,
+    "allowJs": true,
+    "verbatimModuleSyntax": true,
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+
+    /* Path mappings */
     "paths": {
       "utils/*": ["./utils/index.ts"]
     }
   },
-  "include": ["test/**/*.ts", "utils/*.ts"]
+  "include": ["vite.config.ts", "test/**/*.ts", "utils/*.ts"],
+  "exclude": ["node_modules", "dist", "anchor/target"]
 }
