@@ -37,6 +37,14 @@
       "arrowParentheses": "always"
     }
   },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": "off"
+      }
+    }
+  },
   "files": {
     "includes": ["**/*.{js,jsx,ts,tsx,json}"],
     "ignoreUnknown": true

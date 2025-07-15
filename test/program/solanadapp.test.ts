@@ -1,8 +1,11 @@
-import { describe, it, expect } from 'bun:test'
+import { describe, expect, it, beforeAll } from 'bun:test'
+import { logger } from 'utils'
 
 describe('solanadapp', () => {
-  // TODO: Implement tests for the solanadapp program based on the Codama generated client.
-  // Use tests in `legacy/legacy-next-tailwind-solanadapp/anchor/tests/solanadapp.test.ts` as a reference.
+  beforeAll(async () => {
+    logger.info('Running solanadapp tests')
+  })
+
   it.skip('Initialize Solanadapp', async () => {
     expect(true).toBe(true)
   })

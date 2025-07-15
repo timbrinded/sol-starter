@@ -81,7 +81,7 @@ solana-dapp-starter/
 │   ├── target/              # Build artifacts (git-ignored)
 │   └── tests/               # Program tests
 │
-├── src/                      # React frontend
+├── web/                      # React frontend
 │   ├── components/          # React components
 │   │   ├── account/        # Wallet account components
 │   │   ├── cluster/        # Solana cluster selection
@@ -143,14 +143,14 @@ bun run codama:js
 
 ### 2. Create React Components
 
-Add your UI components in `src/components/`. The template includes examples for:
+Add your UI components in `web/components/`. The template includes examples for:
 - Wallet connection (`solana/solana-provider.tsx`)
 - Account balance display (`account/`)
 - Program interaction (`solanadapp/`)
 
 ### 3. Add Routes
 
-Define new pages in `src/app-routes.tsx`:
+Define new pages in `web/app-routes.tsx`:
 
 ```typescript
 const routes = [

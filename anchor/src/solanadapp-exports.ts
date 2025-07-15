@@ -1,14 +1,8 @@
-// Here we export some useful types and functions for interacting with the Anchor program.
-import { type Account, address, getBase58Decoder, type SolanaClient } from 'gill'
 import type { SolanaClusterId } from '@wallet-ui/react'
-import { getProgramAccountsDecoded } from './helpers/get-program-accounts-decoded'
-import {
-  type Solanadapp,
-  SOLANADAPP_DISCRIMINATOR,
-  SOLANADAPP_PROGRAM_ADDRESS,
-  getSolanadappDecoder,
-} from './client/js'
+import { type Account, address, getBase58Decoder, type SolanaClient } from 'gill'
 import SolanadappIDL from '../target/idl/solanadapp.json'
+import { getSolanadappDecoder, type Solanadapp, SOLANADAPP_DISCRIMINATOR, SOLANADAPP_PROGRAM_ADDRESS } from 'client-js'
+import { getProgramAccountsDecoded } from './helpers/get-program-accounts-decoded'
 
 export type SolanadappAccount = Account<Solanadapp, string>
 
