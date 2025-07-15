@@ -26,3 +26,30 @@ export const logger: CustomLogger = pino(
 logger.success = function (message: string) {
   this.info(`✅ ${message}`)
 }
+
+export const stringify = (blob: unknown): string => {
+  switch (typeof blob) {
+    case 'string':
+      return blob
+    case 'bigint':
+    case 'boolean':
+    case 'number':
+    case 'symbol':
+      return blob.toString()
+    case 'undefined':
+      return 'undefined'
+    case 'object':
+      if (blob === null) {
+        return 'null'
+      }
+      try {
+        return JSON.stringify(blob, (_key, value) =>
+          typeof value === 'bigint' ? value.toString() : value,
+        )
+      } catch {
+        return '[Circular]'
+      }
+    default:
+      return String(blob)
+  }
+}

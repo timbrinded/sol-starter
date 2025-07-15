@@ -13,7 +13,7 @@
     "fmt:check": "biome format .",
     "lint": "biome lint .",
     "test:program": "cd anchor && anchor test",
-    "typecheck": "bun tsc -p ./tsconfig.app.json --diagnostics && bun tsc -p ./tsconfig.backend.json --diagnostics",
+    "typecheck": "bun tsc --noEmit",
     "preview": "vite preview",
     "setup": "bun run anchor keys sync && bun run codama:js"
   },
