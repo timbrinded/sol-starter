@@ -7,7 +7,7 @@
     "skipLibCheck": true,
     "composite": true,
     "baseUrl": ".",
-    
+
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -17,7 +17,7 @@
     "noEmit": true,
     "allowJs": true,
     "verbatimModuleSyntax": true,
-    
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
@@ -26,20 +26,12 @@
     "noUncheckedSideEffectImports": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
-    
+
     /* Path mappings */
     "paths": {
       "utils/*": ["./utils/index.ts"]
     }
   },
-  "include": [
-    "vite.config.ts",
-    "test/**/*.ts",
-    "utils/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "anchor/target"
-  ]
+  "include": ["vite.config.ts", "test/**/*.ts", "utils/*.ts"],
+  "exclude": ["node_modules", "dist", "anchor/target"]
 }
