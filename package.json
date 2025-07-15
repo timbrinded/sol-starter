@@ -5,7 +5,7 @@
     "anchor-build": "cd anchor && anchor build",
     "anchor-localnet": "cd anchor && anchor localnet",
     "anchor-test": "cd anchor && anchor test",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "codama:js": "codama run js -c ./anchor/codama.js",
     "ci": "bun run build && bun run lint && bun run format:check",
     "dev": "vite",
