@@ -32,6 +32,6 @@
       "utils/*": ["./utils/index.ts"]
     }
   },
-  "include": ["vite.config.ts", "test/**/*.ts", "utils/*.ts"],
+  "include": ["vite.config.ts", "utils/*.ts", "anchor/tests/*.ts"],
   "exclude": ["node_modules", "dist", "anchor/target"]
 }
